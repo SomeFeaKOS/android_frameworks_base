@@ -66,4 +66,8 @@
     <!-- Auto fill -->
     <java-symbol type="color" name="autofill_save_title_color" />
     <java-symbol type="color" name="autofill_autofill_save_custom_subtitle_color" />
+
+    <!-- From SignalStrength -->
+    <java-symbol type="integer" name="config_LTE_antenna_bar_quantity_metric" />
+    <java-symbol type="integer" name="config_LTE_RSRP_threshold_type" />
 </resources>

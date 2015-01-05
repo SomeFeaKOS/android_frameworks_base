@@ -25192,6 +25192,7 @@ public class ActivityManagerService extends IActivityManager.Stub
             ProcessRecord app = mLruProcesses.get(i);
             app.containsCycle = false;
         }
+
         for (int i=N-1; i>=0; i--) {
             ProcessRecord app = mLruProcesses.get(i);
             if (mEnableBServicePropagation && app.serviceb
@@ -25376,8 +25377,8 @@ public class ActivityManagerService extends IActivityManager.Stub
                 }
             }
         }
-        if (numBServices > mBServiceAppThreshold && true == mAllowLowerMemLevel
-                && selectedAppRecord != null) {
+        if ((numBServices > mBServiceAppThreshold) && (true == mAllowLowerMemLevel)
+                && (selectedAppRecord != null)) {
             ProcessList.setOomAdj(selectedAppRecord.pid, selectedAppRecord.info.uid,
                     ProcessList.CACHED_APP_MAX_ADJ);
             selectedAppRecord.setAdj = selectedAppRecord.curAdj;

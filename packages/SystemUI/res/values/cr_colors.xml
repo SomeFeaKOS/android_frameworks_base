@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2017-2018 Projekt Substratum
+<!--
+     Copyright (C) 2018 CarbonROM
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -15,10 +16,7 @@
 -->
 <resources>
 
-    <!-- Config to enable/diaable qs tile tinting -->
-    <bool name="config_enable_qs_tile_tinting">false</bool>
-
     <!-- Custom Carrier Label -->
-    <dimen name="status_bar_carrier_height">14dp</dimen>
+    <color name="status_bar_carrier_color">#FFFFFFFF</color>
 
 </resources>

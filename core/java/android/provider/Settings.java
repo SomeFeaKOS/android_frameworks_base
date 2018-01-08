@@ -4152,6 +4152,13 @@ public final class Settings {
         public static final String TOAST_ICON = "toast_icon";
 
         /**
+         * 0 - fullscreen
+         * 1 - partial
+         * @hide
+         */
+        public static final String SCREENSHOT_DEFAULT_MODE = "screenshot_default_mode";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
@@ -4326,6 +4333,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(EGG_MODE);
             PRIVATE_SETTINGS.add(SHOW_BATTERY_PERCENT);
             PRIVATE_SETTINGS.add(DISPLAY_COLOR_MODE);
+            PRIVATE_SETTINGS.add(SCREENSHOT_DEFAULT_MODE);
         }
 
         /**

@@ -494,6 +494,7 @@ class GlobalScreenshot {
 
     private Bitmap mScreenBitmap;
     private View mScreenshotLayout;
+    private View mScreenshotSelectorLayout;
     private ScreenshotSelectorView mScreenshotSelectorView;
     private ImageView mBackgroundView;
     private ImageView mScreenshotView;
@@ -522,15 +523,17 @@ class GlobalScreenshot {
         // Inflate the screenshot layout
         mDisplayMatrix = new Matrix();
         mScreenshotLayout = layoutInflater.inflate(R.layout.global_screenshot, null);
+        mScreenshotSelectorLayout = layoutInflater.inflate(R.layout.global_screenshot, null);
         mBackgroundView = (ImageView) mScreenshotLayout.findViewById(R.id.global_screenshot_background);
         mScreenshotView = (ImageView) mScreenshotLayout.findViewById(R.id.global_screenshot);
         mScreenshotFlash = (ImageView) mScreenshotLayout.findViewById(R.id.global_screenshot_flash);
-        mScreenshotSelectorView = (ScreenshotSelectorView) mScreenshotLayout.findViewById(
+        mScreenshotSelectorView = (ScreenshotSelectorView) mScreenshotSelectorLayout.findViewById(
                 R.id.global_screenshot_selector);
         mScreenshotLayout.setFocusable(true);
+        mScreenshotSelectorLayout.setFocusable(true);
         mScreenshotSelectorView.setFocusable(true);
         mScreenshotSelectorView.setFocusableInTouchMode(true);
-        mScreenshotLayout.setOnTouchListener(new View.OnTouchListener() {
+        mScreenshotSelectorLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 // Intercept and ignore all touch events
@@ -665,7 +668,7 @@ class GlobalScreenshot {
      */
     void takeScreenshotPartial(final Runnable finisher, final boolean statusBarVisible,
             final boolean navBarVisible) {
-        mWindowManager.addView(mScreenshotLayout, mWindowLayoutParams);
+        mWindowManager.addView(mScreenshotSelectorLayout, mWindowLayoutParams);
         mScreenshotSelectorView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -679,7 +682,7 @@ class GlobalScreenshot {
                         return true;
                     case MotionEvent.ACTION_UP:
                         view.setVisibility(View.GONE);
-                        mWindowManager.removeView(mScreenshotLayout);
+                        mWindowManager.removeView(mScreenshotSelectorLayout);
                         final Rect rect = view.getSelectionRect();
                         if (rect != null && !rect.isEmpty()) {
                             // Need mScreenshotSelectorLayout to handle it after the view disappears
@@ -698,7 +701,7 @@ class GlobalScreenshot {
                 return false;
             }
         });
-        mScreenshotLayout.post(new Runnable() {
+        mScreenshotSelectorLayout.post(new Runnable() {
             @Override
             public void run() {
                 mScreenshotSelectorView.setVisibility(View.VISIBLE);
@@ -713,8 +716,12 @@ class GlobalScreenshot {
     void stopScreenshot() {
         // If the selector layer still presents on screen, we remove it and resets its state.
         if (mScreenshotSelectorView.getSelectionRect() != null) {
-            mWindowManager.removeView(mScreenshotLayout);
-            mScreenshotSelectorView.stopSelection();
+            try {
+                mWindowManager.removeView(mScreenshotLayout);
+		mWindowManager.removeView(mScreenshotSelectorLayout);
+                mScreenshotSelectorView.stopSelection();
+            } catch (IllegalArgumentException ignored) {
+            }
         }
     }
 

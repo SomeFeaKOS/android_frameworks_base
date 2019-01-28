@@ -62,7 +62,6 @@ import android.os.RemoteException;
 import android.os.SELinux;
 import android.os.ServiceManager;
 import android.os.SystemClock;
-import android.os.SystemProperties;
 import android.os.UserHandle;
 import android.os.UserManager;
 import android.security.KeyStore;
@@ -339,7 +338,7 @@ public class FingerprintService extends SystemService implements IHwBinder.Death
      * @param userId
      */
     private void doFingerprintCleanupForUser(int userId) {
-        if (SystemProperties.getBoolean("ro.fingerprint.cleanup.unused", CLEANUP_UNUSED_FP)) {
+        if (mCleanupUnusedFingerprints) {
             enumerateUser(userId);
         }
     }

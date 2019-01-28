@@ -231,7 +231,7 @@ public class SmartPixelsService extends Service {
     private void updateSettings() {
         mPattern = Settings.System.getIntForUser(
                 mContext.getContentResolver(), Settings.System.SMART_PIXELS_PATTERN,
-                5, UserHandle.USER_CURRENT);
+                3, UserHandle.USER_CURRENT);
         mShiftTimeout = Settings.System.getIntForUser(
                 mContext.getContentResolver(), Settings.System.SMART_PIXELS_SHIFT_TIMEOUT,
                 4, UserHandle.USER_CURRENT);

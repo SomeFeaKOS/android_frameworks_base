@@ -18,7 +18,4 @@
     <!-- Config to enable/diaable qs tile tinting -->
     <bool name="config_enable_qs_tile_tinting">false</bool>
 
-    <!-- Custom Carrier Label -->
-    <dimen name="status_bar_carrier_height">14dp</dimen>
-
 </resources>

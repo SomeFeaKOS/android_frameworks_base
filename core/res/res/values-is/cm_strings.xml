@@ -18,10 +18,12 @@
      limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- ADB over network notification -->
-    <!-- ADB over USB and network notification -->
-    <!-- ADB notification message-->
-    <!-- App ops requests -->
-    <!-- Privacy Guard -->
-    <!-- Text of the checkbox for the permission confirmation dialog to remember the user's choice. [CHAR LIMIT=40] -->
+    <string name="app_ops_bind_accessibility_service">tengjast við þjónustu fyrir aukið aðgengi</string>
+    <string name="app_ops_bluetooth_scan">skanna bluetooth</string>
+    <string name="app_ops_accept_handover">afhenda símtal frá öðru forriti</string>
+    <string name="app_ops_manage_ipsec_tunnels">sýsla með ipsec-göng</string>
+    <string name="app_ops_receive_emergency_broadcast">taka á móti útvörpuðum neyðarskilaboðum</string>
+    <string name="app_ops_request_delete_packages">biðja um eyðingu pakka</string>
+    <string name="app_ops_run_any_in_background">keyra hvað sem er í bakgrunni</string>
+    <string name="app_ops_start_foreground">ræsast í forgrunni</string>
 </resources>

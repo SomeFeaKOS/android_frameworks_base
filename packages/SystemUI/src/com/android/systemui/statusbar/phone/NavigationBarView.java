@@ -97,7 +97,7 @@ public class NavigationBarView extends FrameLayout implements PluginListener<Nav
     final static boolean DEBUG = false;
     final static String TAG = "StatusBar/NavBarView";
 
-    private static final String NAVIGATION_BAR_MENU_ARROW_KEYS =
+    public static final String NAVIGATION_BAR_MENU_ARROW_KEYS =
             "lineagesystem:" + LineageSettings.System.NAVIGATION_BAR_MENU_ARROW_KEYS;
 
     // slippery nav bar when everything is disabled, e.g. during setup
@@ -1171,7 +1171,7 @@ public class NavigationBarView extends FrameLayout implements PluginListener<Nav
     @Override
     public void onTuningChanged(String key, String newValue) {
         if (NAVIGATION_BAR_MENU_ARROW_KEYS.equals(key)) {
-            mShowDpadArrowKeys = newValue != null && Integer.parseInt(newValue) != 0;
+            mShowDpadArrowKeys = TunerService.parseIntegerSwitch(newValue, false);
             setNavigationIconHints(mNavigationIconHints);
         }
     }

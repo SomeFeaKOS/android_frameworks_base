@@ -677,6 +677,7 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
 
     private NavigationBarFragment mNavigationBar;
     private View mNavigationBarView;
+    private boolean mNeedsNavigationBar;
     protected ActivityLaunchAnimator mActivityLaunchAnimator;
     private HeadsUpAppearanceController mHeadsUpAppearanceController;
     private boolean mVibrateOnOpening;
@@ -733,6 +734,16 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
         mVibratorHelper = Dependency.get(VibratorHelper.class);
         mScrimSrcModeEnabled = res.getBoolean(R.bool.config_status_bar_scrim_behind_use_src);
         mClearAllEnabled = res.getBoolean(R.bool.config_enableNotificationsClearAll);
+        mNeedsNavigationBar = res.getBoolean(com.android.internal.R.bool.config_showNavigationBar);
+
+        // Allow a system property to override this. Used by the emulator.
+        // See also hasNavigationBar().
+        String navBarOverride = SystemProperties.get("qemu.hw.mainkeys");
+        if ("1".equals(navBarOverride)) {
+            mNeedsNavigationBar = false;
+        } else if ("0".equals(navBarOverride)) {
+            mNeedsNavigationBar = true;
+        }
 
         DateTimeView.setReceiverHandler(Dependency.get(Dependency.TIME_TICK_HANDLER));
         putComponent(StatusBar.class, this);
@@ -821,10 +832,12 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
 
         IVrManager vrManager = IVrManager.Stub.asInterface(ServiceManager.getService(
                 Context.VR_SERVICE));
-        try {
-            vrManager.registerListener(mVrStateCallbacks);
-        } catch (RemoteException e) {
-            Slog.e(TAG, "Failed to register VR mode state listener: " + e);
+        if (vrManager != null) {
+            try {
+                vrManager.registerListener(mVrStateCallbacks);
+            } catch (RemoteException e) {
+                Slog.e(TAG, "Failed to register VR mode state listener: " + e);
+            }
         }
 
         IWallpaperManager wallpaperManager = IWallpaperManager.Stub.asInterface(
@@ -915,12 +928,25 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
                     mStatusBarView.setBar(this);
                     mStatusBarView.setPanel(mNotificationPanel);
                     mStatusBarView.setScrimController(mScrimController);
+
+                    // CollapsedStatusBarFragment re-inflated PhoneStatusBarView and both of
+                    // mStatusBarView.mExpanded and mStatusBarView.mBouncerShowing are false.
+                    // PhoneStatusBarView's new instance will set to be gone in
+                    // PanelBar.updateVisibility after calling mStatusBarView.setBouncerShowing
+                    // that will trigger PanelBar.updateVisibility. If there is a heads up showing,
+                    // it needs to notify PhoneStatusBarView's new instance to update the correct
+                    // status by calling mNotificationPanel.notifyBarPanelExpansionChanged().
+                    if (mHeadsUpManager.hasPinnedHeadsUp()) {
+                        mNotificationPanel.notifyBarPanelExpansionChanged();
+                    }
                     mStatusBarView.setBouncerShowing(mBouncerShowing);
                     if (oldStatusBarView != null) {
                         float fraction = oldStatusBarView.getExpansionFraction();
                         boolean expanded = oldStatusBarView.isExpanded();
                         mStatusBarView.panelExpansionChanged(fraction, expanded);
                     }
+
+                    HeadsUpAppearanceController oldController = mHeadsUpAppearanceController;
                     if (mHeadsUpAppearanceController != null) {
                         // This view is being recreated, let's destroy the old one
                         mHeadsUpAppearanceController.destroy();
@@ -928,6 +954,7 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
                     mHeadsUpAppearanceController = new HeadsUpAppearanceController(
                             mNotificationIconAreaController, mHeadsUpManager, mStatusBarWindow);
                     mStatusBarWindow.setStatusBarView(mStatusBarView);
+                    mHeadsUpAppearanceController.readFrom(oldController);
                     setAreThereNotifications();
                     checkBarModes();
                 }).getFragmentManager()
@@ -2270,6 +2297,10 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
         if (!isCollapsing()) {
             onClosingFinished();
         }
+    }
+
+    public boolean isHeadsUpShouldBeVisible() {
+        return mHeadsUpAppearanceController.shouldBeVisible();
     }
 
     /**
@@ -5897,23 +5928,30 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
     @Override
     public void onTuningChanged(String key, String newValue) {
         if (SCREEN_BRIGHTNESS_MODE.equals(key)) {
-            mAutomaticBrightness = newValue != null && Integer.parseInt(newValue)
-                    == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
+            try {
+                mAutomaticBrightness = newValue != null && Integer.parseInt(newValue)
+                        == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
+            } catch (NumberFormatException ex) {}
         } else if (STATUS_BAR_BRIGHTNESS_CONTROL.equals(key)) {
-            mBrightnessControl = newValue != null && Integer.parseInt(newValue) == 1;
+            mBrightnessControl = TunerService.parseIntegerSwitch(newValue, false);
         } else if (LOCKSCREEN_MEDIA_METADATA.equals(key)) {
-            mShowMediaMetadata = newValue == null || Integer.parseInt(newValue) != 0;
+            mShowMediaMetadata = TunerService.parseIntegerSwitch(newValue, true);
         } else if (mWindowManagerService != null && FORCE_SHOW_NAVBAR.equals(key)) {
-            boolean forcedVisibility = newValue != null && Integer.parseInt(newValue) == 1;
+            boolean forcedVisibility = mNeedsNavigationBar ||
+                    TunerService.parseIntegerSwitch(newValue, false);
 
-            if (forcedVisibility && mNavigationBarView == null) {
-                createNavigationBar();
-            } else if (mNavigationBarView != null) {
-                FragmentHostManager fm = FragmentHostManager.get(mNavigationBarView);
-                mWindowManager.removeViewImmediate(mNavigationBarView);
-                mNavigationBarView = null;
-                fm.getFragmentManager().beginTransaction().remove(mNavigationBar).commit();
-                mNavigationBar = null;
+            if (forcedVisibility) {
+                if (mNavigationBarView == null) {
+                    createNavigationBar();
+                }
+            } else {
+                if (mNavigationBarView != null) {
+                    FragmentHostManager fm = FragmentHostManager.get(mNavigationBarView);
+                    mWindowManager.removeViewImmediate(mNavigationBarView);
+                    mNavigationBarView = null;
+                    fm.getFragmentManager().beginTransaction().remove(mNavigationBar).commit();
+                    mNavigationBar = null;
+                }
             }
         } else if (BERRY_GLOBAL_STYLE.equals(key)) {
             updateTheme();

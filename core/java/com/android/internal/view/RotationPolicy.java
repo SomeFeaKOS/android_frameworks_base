@@ -21,6 +21,9 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.graphics.Point;
+import android.hardware.configstore.V1_1.DisplayOrientation;
+import android.hardware.configstore.V1_1.ISurfaceFlingerConfigs;
+import android.hardware.configstore.V1_1.OptionalDisplayOrientation;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -43,8 +46,7 @@ public final class RotationPolicy {
     private static final String TAG = "RotationPolicy";
     private static final int CURRENT_ROTATION = -1;
 
-    public static final int NATURAL_ROTATION =
-            SystemProperties.getInt("ro.sf.hwrotation", Surface.ROTATION_0) / 90;
+    public static final int NATURAL_ROTATION = getNaturalRotation();
 
     private RotationPolicy() {
     }
@@ -164,7 +166,7 @@ public final class RotationPolicy {
 
     private static boolean isCurrentRotationAllowed(Context context) {
         int userRotationAngles = Settings.System.getInt(context.getContentResolver(),
-                "accelerometer_rotation_angles", -1);
+                Settings.System.ACCELEROMETER_ROTATION_ANGLES, -1);
         boolean allowAllRotations = context.getResources().getBoolean(
                 com.android.internal.R.bool.config_allowAllRotations);
         final IWindowManager wm = WindowManagerGlobal.getWindowManagerService();
@@ -223,6 +225,27 @@ public final class RotationPolicy {
     public static void unregisterRotationPolicyListener(Context context,
             RotationPolicyListener listener) {
         context.getContentResolver().unregisterContentObserver(listener.mObserver);
+    }
+
+    public static int getNaturalRotation() {
+        OptionalDisplayOrientation orientation;
+
+        try {
+            orientation =
+                    ISurfaceFlingerConfigs.getService().primaryDisplayOrientation();
+            switch (orientation.value) {
+                case DisplayOrientation.ORIENTATION_90:
+                    return Surface.ROTATION_90;
+                case DisplayOrientation.ORIENTATION_180:
+                    return Surface.ROTATION_180;
+                case DisplayOrientation.ORIENTATION_270:
+                    return Surface.ROTATION_270;
+            }
+        } catch (RemoteException e) {
+            // do nothing
+        }
+
+        return Surface.ROTATION_0;
     }
 
     /**

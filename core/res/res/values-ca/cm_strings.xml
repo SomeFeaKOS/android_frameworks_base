@@ -18,13 +18,9 @@
      limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- ADB over network notification -->
     <string name="adb_net_active_notification_title">ADB sobre xarxa habilitat</string>
-    <!-- ADB over USB and network notification -->
     <string name="adb_both_active_notification_title">ADB sobre USB i xarxa habilitat</string>
-    <!-- ADB notification message-->
     <string name="adb_active_generic_notification_message">Toca per deshabilitar la depuració.</string>
-    <!-- App ops requests -->
     <string name="app_ops_access_camera">accedir a la càmera</string>
     <string name="app_ops_access_location">accedir a la teva ubicació</string>
     <string name="app_ops_access_notifications">llegir les teves notificacions</string>
@@ -35,6 +31,8 @@
     <string name="app_ops_assist_structure">utilitzar estructures d\'assistència</string>
     <string name="app_ops_audio_accessibility_volume">volum de so d\'accessibilitat</string>
     <string name="app_ops_auto_start">iniciar-se a l\'engegar</string>
+    <string name="app_ops_bind_accessibility_service">enllaç a un servei d\'accessibilitat</string>
+    <string name="app_ops_bluetooth_scan">exploració Bluetooth</string>
     <string name="app_ops_change_wallpaper">canviar el fons de pantalla</string>
     <string name="app_ops_delete_call_log">esborrar el teu registre de trucades</string>
     <string name="app_ops_delete_contacts">esborrar els teus contactes</string>
@@ -43,8 +41,10 @@
     <string name="app_ops_draw_on_top">dibuixar finestres en primer pla</string>
     <string name="app_ops_get_accounts">obtenir els comptes del dispositiu</string>
     <string name="app_ops_get_usage_stats">obtenir estadístiques d\'ús d\'aplicacions</string>
+    <string name="app_ops_accept_handover">rebre una trucada d\'una altra aplicació</string>
     <string name="app_ops_install_packages">instal·lar paquets</string>
     <string name="app_ops_keep_device_awake">mantenir el teu dispositiu encès</string>
+    <string name="app_ops_manage_ipsec_tunnels">gestionar túnels ipsec</string>
     <string name="app_ops_make_phone_call">fer una trucada</string>
     <string name="app_ops_mock_location">simular l\'ubicació</string>
     <string name="app_ops_modify_calendar">actualitzar el teu calendari</string>
@@ -69,12 +69,16 @@
     <string name="app_ops_read_phone_state">accedir a l\'estat del telèfon</string>
     <string name="app_ops_read_sms">llegir els teus missatges SMS</string>
     <string name="app_ops_receive_sms">rebre un missatge SMS</string>
+    <string name="app_ops_receive_emergency_broadcast">rebre una transmissió d\'emergència</string>
     <string name="app_ops_record_audio">enregistrar so</string>
+    <string name="app_ops_request_delete_packages">sol·licitar esborrar paquets</string>
     <string name="app_ops_run_in_background">executa en segon pla</string>
+    <string name="app_ops_run_any_in_background">executa qualsevol en segon pla</string>
     <string name="app_ops_scan_wifi">escannejar xarxes Wi-Fi</string>
     <string name="app_ops_send_mms">enviar un missatge MMS</string>
     <string name="app_ops_send_sms">enviar un missatge SMS</string>
     <string name="app_ops_start_at_bootup">iniciar-se a l\'engegar</string>
+    <string name="app_ops_start_foreground">executar-se en primer pla</string>
     <string name="app_ops_su">obtenir accés de superusuari</string>
     <string name="app_ops_toast_window">mostra missatges emergents</string>
     <string name="app_ops_toggle_bluetooth">canviar el Bluetooth</string>
@@ -98,13 +102,11 @@
     <string name="app_ops_write_external_storage">escriure en un emmagatzematge extern</string>
     <string name="app_ops_write_mms">escriure un missatge MMS</string>
     <string name="app_ops_write_sms">escriure un missatge SMS</string>
-    <!-- Privacy Guard -->
     <string name="permlab_changePrivacyGuardState">activa o desactiva el guarda de privacitat</string>
     <string name="permdesc_changePrivacyGuardState">Permet a l\'aplicació fer el canvi d\'estat de privacitat d\'una altra aplicació. Quan una aplicació s\'executa amb el guarda de privacitat, no tindrà accés a les dades personals com els contactes, registres de trucades, o missatges.</string>
     <string name="privacy_guard_notification">Guarda de privacitat actiu</string>
     <string name="privacy_guard_notification_detail"><xliff:g id="app">%1$s</xliff:g> no tindrà accés a dades personals</string>
     <string name="privacy_guard_dialog_title">Guarda de privacitat</string>
     <string name="privacy_guard_dialog_summary"><xliff:g id="app">%1$s</xliff:g> voldria <xliff:g id="op">%2$s</xliff:g>.</string>
-    <!-- Text of the checkbox for the permission confirmation dialog to remember the user's choice. [CHAR LIMIT=40] -->
     <string name="permission_remember_choice">Recorda la meva elecció</string>
 </resources>

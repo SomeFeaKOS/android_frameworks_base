@@ -19,51 +19,44 @@
  */
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- Advanced restart menu -->
-    <!-- Button to restart the device, within the Restart Options dialog -->
     <string name="global_action_restart_system">Sistemi</string>
-    <!-- Button to restart the device into recovery mode, within the Restart Options dialog -->
-    <!-- Button to restart the device into bootloader mode, within the Restart Options dialog -->
-    <!-- Button to restart the device into download mode, within the Restart Options dialog -->
-    <!-- Restart progress dialog. This is shown if the user chooses to restart the device. -->
-    <!-- Restart to recovery mode progress dialog. This is shown if the user chooses to restart the device. -->
-    <!-- Restart to bootloader mode progress dialog. This is shown if the user chooses to restart the device. -->
-    <!-- Restart to download mode progress dialog. This is shown if the user chooses to restart the device. -->
-    <!-- Label for current user in power menu options dialog -->
-    <!-- Custom QS tiles -->
-    <!-- ADB over network QS tile -->
+    <string name="global_action_restart_recovery">Rimëkëmbje</string>
+    <string name="global_action_restart_bootloader">Bootloader</string>
+    <string name="global_action_restart_download">Shkarko</string>
+    <string name="global_action_restart_progress">Duke u rindezur\u2026</string>
+    <string name="global_action_restart_recovery_progress">Duke u rindezur në metodën e rivendosjes\u2026</string>
+    <string name="global_action_restart_bootloader_progress">Duke u rindezur në metodën e Bootloader\u2026</string>
+    <string name="global_action_restart_download_progress">Duke u rindezur në metodën e shkarkimit\u2026</string>
+    <string name="global_action_current_user">Aktualisht</string>
     <string name="quick_settings_network_adb_label">ADB mbi rrjet</string>
-    <!-- Ambient display QS tile -->
     <string name="quick_settings_ambient_display_label">Drita e ekranit sipas ambientit</string>
     <string name="accessibility_quick_settings_ambient_display_off">Drita e ekranit sipas ambientit inaktive.</string>
     <string name="accessibility_quick_settings_ambient_display_on">Drita e ekranit sipas ambientit aktive.</string>
     <string name="accessibility_quick_settings_ambient_display_changed_off">Drita e ekranit sipas ambientit u çaktivizua.</string>
     <string name="accessibility_quick_settings_ambient_display_changed_on">Drita e ekranit sipas ambientit u aktivizua.</string>
-    <!-- Caffeine QS tile -->
     <string name="quick_settings_caffeine_label">Kafeina</string>
     <string name="accessibility_quick_settings_caffeine_off">Kafeina inaktive.</string>
     <string name="accessibility_quick_settings_caffeine_on">Kafeina aktive.</string>
-    <!-- Heads up QS tile -->
     <string name="quick_settings_heads_up_label">Heads up</string>
     <string name="accessibility_quick_settings_heads_up_off">Heads-up inaktiv.</string>
     <string name="accessibility_quick_settings_heads_up_on">Heads-up Aktiv.</string>
     <string name="accessibility_quick_settings_heads_up_changed_off">Njoftimet Heads-up u çaktivizuan.</string>
     <string name="accessibility_quick_settings_heads_up_changed_on">Njoftimet Heads-up u aktivizuan.</string>
-    <!-- Reader mode QS tile -->
-    <!-- Sync QS tile -->
+    <string name="quick_settings_reading_mode">Mënyrë Leximi</string>
+    <string name="accessibility_quick_settings_reading_mode_on">Metoda pë lexim aktive.</string>
+    <string name="accessibility_quick_settings_reading_mode_off">Metoda pë lexim jo aktive.</string>
+    <string name="accessibility_quick_settings_reading_mode_changed_on">Metoda për lexim u aktivizua.</string>
+    <string name="accessibility_quick_settings_reading_mode_changed_off">Metoda për lexim u ç\'aktivizua.</string>
     <string name="quick_settings_sync_label">Sinkronizimi</string>
     <string name="accessibility_quick_settings_sync_off">Sinkronizimi inaktiv.</string>
     <string name="accessibility_quick_settings_sync_on">Sinkronizimi aktiv.</string>
     <string name="accessibility_quick_settings_sync_changed_off">Sinkronizimi u çaktivizua.</string>
     <string name="accessibility_quick_settings_sync_changed_on">Sinkronizimi u aktivizua.</string>
-    <!-- USB tethering QS tile -->
     <string name="quick_settings_usb_tether_label">USB tethering</string>
-    <!-- Volume panel QS tile -->
     <string name="quick_settings_volume_panel_label">Paneli i volumit</string>
-    <!-- Navigation bar dpad -->
     <string name="accessibility_dpad_left">Kursori majtas</string>
     <string name="accessibility_dpad_right">Kursori djathtas</string>
-    <!-- Screen pinning dialog description. (for devices without navbar) -->
-    <!-- Notify use that they are in Lock-to-app (for devices without navbar)-->
-    <!-- Button that controls inversion of layout of navigation bar -->
+    <string name="screen_pinning_description_no_navbar">Kjo e mban në ekran derisa ta shqitësh. Shtyp &amp; mbaj shtypur butonin Prapa për ta shqitur.</string>
+    <string name="screen_pinning_toast_no_navbar">Për ta shqitur këtë ekran, prek &amp; mbaj shtypur butonin Prapa</string>
+    <string name="nav_bar_layout_inverse">E anasjellta e ndërfaqes</string>
 </resources>
